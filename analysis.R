@@ -1,0 +1,164 @@
+library(readxl)
+
+# setting working directory
+getwd()
+
+# reading excel file
+
+ficus <- read_excel("ficus.xls")
+View(ficus)
+
+
+# install.packages("tidyverse")
+# install.packages("ggplot2")
+library(ggplot2)
+
+
+# Create a scatter plot
+
+ggplot(ficus, aes(x = Petal_width, y = Petal_length)) +
+  geom_point() +  # Scatter points
+  labs(title = "Scatter Plot", x = "X Axis", y = "Y Axis")
+
+ggplot(ficus,x = Petal_width, y = Petal_length, geom='point')
+
+# Assuming 'ficus' is your data frame and has columns 'Petal_width' and 'Petal_length'
+qplot(Petal_width, Petal_length, data = ficus, col='red')
+
+qplot(data=ficus,x = Petal_width, y = Petal_length, geom='point', col=Species)
+
+
+qplot(Petal_width, Petal_length, data = ficus) +
+  labs(title = "Petal Width vs Petal Length", x = "Petal Width", y = "Petal Length")
+
+qplot(Petal_width, data = ficus, geom = "histogram", bins = 30)
+
+
+qplot(x = Species, y = Petal_length, data = ficus, geom = "boxplot")
+
+
+# qqnorm(ficus)
+sapply(ficus, is.numeric)
+
+# Create a QQ plot for Petal_width column
+qqnorm(ficus$Petal_width)
+qqline(ficus$Petal_width, col = "red")
+
+qqnorm(ficus$Petal_length)
+qqline(ficus$Petal_length, col = "red")
+
+
+# Create a QQ plot with ggplot2
+# Create a QQ plot for Petal_length
+ggplot(data.frame(x = ficus$Petal_length), aes(sample = x)) +
+  stat_qq() +
+  stat_qq_line() +
+  labs(title = "QQ Plot for Petal Length", x = "Theoretical Quantiles", y = "Sample Quantiles")
+
+
+
+
+
+# Create a QQ plot for Petal_width
+ggplot(data.frame(x = ficus$Petal_width), aes(sample = x)) +
+  stat_qq() +
+  stat_qq_line() +
+  labs(title = "QQ Plot for Petal Width", x = "Theoretical Quantiles", y = "Sample Quantiles")
+
+
+
+# QQ plot for Petal_length
+ggplot(data.frame(x = ficus$Petal_length), aes(sample = x)) +
+  stat_qq() +
+  stat_qq_line() +
+  labs(title = "QQ Plot for Petal Length", x = "Theoretical Quantiles", y = "Sample Quantiles")
+
+
+
+# use of geometry
+
+
+# Scatter plot of Petal_width vs Petal_length
+ggplot(ficus, aes(x = Petal_width, y = Petal_length)) +
+  geom_point() +
+  labs(title = "Petal Width vs Petal Length", x = "Petal Width", y = "Petal Length")
+
+
+
+# Line plot of Sepal_length over index
+ggplot(ficus, aes(x = 1:nrow(ficus), y = Sepal_length)) +
+  geom_line() +
+  labs(title = "Line Plot of Sepal Length", x = "Index", y = "Sepal Length")
+
+# Histogram of Petal_width
+ggplot(ficus, aes(x = Petal_width)) +
+  geom_histogram(binwidth = 0.1, fill = "blue", color = "black") +
+  labs(title = "Histogram of Petal Width", x = "Petal Width", y = "Frequency")
+
+
+
+# Bar plot of species count
+ggplot(ficus, aes(x = Species)) +
+  geom_bar(fill = "lightblue", color = "black") +
+  labs(title = "Count of Species", x = "Species", y = "Count")
+
+
+
+# Boxplot of Petal_length by Species
+ggplot(ficus, aes(x = Species, y = Petal_length)) +
+  geom_boxplot(fill = "lightgreen", color = "black") +
+  labs(title = "Boxplot of Petal Length by Species", x = "Species", y = "Petal Length")
+
+# Density plot of Petal_width
+ggplot(ficus, aes(x = Petal_width)) +
+  geom_density(fill = "blue", alpha = 0.5) +
+  labs(title = "Density Plot of Petal Width", x = "Petal Width", y = "Density")
+
+
+# Adding a smoothed trend line for Petal_length vs Petal_width
+ggplot(ficus, aes(x = Petal_width, y = Petal_length)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +  # Linear regression line
+  labs(title = "Petal Width vs Petal Length with Trend Line", x = "Petal Width", y = "Petal Length")
+
+
+
+# Violin plot of Petal_length by Species
+ggplot(ficus, aes(x = Species, y = Petal_length)) +
+  geom_violin(fill = "red", color = "black") +
+  labs(title = "Violin Plot of Petal Length by Species", x = "Species", y = "Petal Length")
+# Violin plot of Petal_length by Species with valid color
+ggplot(ficus, aes(x = Species, y = Petal_length)) +
+  geom_violin(fill = "lightblue", color = "black") +  # Use a valid color like lightblue
+  labs(title = "Violin Plot of Petal Length by Species", x = "Species", y = "Petal Length")
+# Violin plot with a custom light purple color
+ggplot(ficus, aes(x = Species, y = Petal_length)) +
+  geom_violin(fill = "#D3A6E2", color = "black") +  # Hex code for light purple
+  labs(title = "Violin Plot of Petal Length by Species", x = "Species", y = "Petal Length")
+
+
+
+# Heatmap of Sepal_length vs Sepal_width
+ggplot(ficus, aes(x = Sepal_width, y = Sepal_length)) +
+  geom_tile(aes(fill = Petal_width)) +  # Using Petal_width as fill color
+  scale_fill_gradient(low = "blue", high = "red") +
+  labs(title = "Heatmap of Sepal Dimensions", x = "Sepal Width", y = "Sepal Length")
+
+
+# Scatter plot with a regression line
+ggplot(ficus, aes(x = Petal_width, y = Petal_length)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "red") +
+  labs(title = "Petal Width vs Petal Length with Trend Line", x = "Petal Width", y = "Petal Length")
+
+# Customizing scatter plot points
+ggplot(ficus, aes(x = Petal_width, y = Petal_length)) +
+  geom_point(color = "blue", size = 3, alpha = 0.6) +  # Adjust point color, size, and transparency
+  labs(title = "Custom Scatter Plot", x = "Petal Width", y = "Petal Length")
+
+
+
+
+
+
+
